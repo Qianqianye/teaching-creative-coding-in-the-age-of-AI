@@ -1,0 +1,28 @@
+body {
+    font-family: Times New Roman, serif;
+    margin: 40px;
+    line-height: 0.85;
+}
+h1 {
+    font-size: 6.5em;
+    margin-bottom: 60px;
+    color: #0000EE;
+}
+p {
+    font-size: 1em;
+    
+}
+
+.next-btn{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1%;
+    text-decoration: none;
+    font-size: 30em;
+}
+
+.credits-ctn h1{
+    font-size: 4.5em;
+    text-align: center;
+}
