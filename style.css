@@ -4,6 +4,12 @@ body {
   margin: 40px;
   line-height: 0.9;
 }
+
+.body{
+  height: 50vh;
+  overflow: hidden;
+  border: solid;
+}
 h1 {
   font-size: 6.5em;
   margin-bottom: 60px;
@@ -35,7 +41,7 @@ p {
 .next-btn {
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 50vh;
   margin: 1%;
   text-decoration: none;
   font-size: 30em;
