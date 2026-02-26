@@ -1,19 +1,38 @@
 body {
-    font-family: Times New Roman, serif;
+    /*font-family: Times New Roman, serif;*/
+    font-family: monospace;
     margin: 40px;
-    line-height: 0.85;
+    line-height: 0.9;
 }
 h1 {
     font-size: 6.5em;
     margin-bottom: 60px;
-    color: #0000EE;
+    color: #0000ee;
+}
+
+h2 {
+    font-size: 4.5em;
+    margin-bottom: 30px;
+    color: #0000ee;
+}
+
+canvas {
+    /*
+    width: 100%;
+    height: 100%;
+    */
+    display: block;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    /*border: 3px solid blue;*/
 }
 p {
     font-size: 1em;
-    
 }
 
-.next-btn{
+.next-btn {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -22,7 +41,7 @@ p {
     font-size: 30em;
 }
 
-.credits-ctn h1{
+.credits-ctn h1 {
     font-size: 4.5em;
     text-align: center;
 }

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .code-panel {
+            padding: 52px 48px;
+            overflow-y: auto;
+            border-right: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .code-panel:last-child {
+            border-right: none;
+        }
+
+        .student-label {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.4);
+            margin-bottom: 28px;
+        }
+
+        pre {
+            font-family: monospace;
+            font-size: 0.8rem;
+            line-height: 1.9;
+            color: #000;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .comment {
+            color: rgb(0, 0, 255);
+        }
+
+        .key {
+            color: rgb(0, 0, 255);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="code-panel">
+        <div class="student-label">the commented-out experiments — searching</div>
+        <!--  <h2>the commented-out experiments — searching</h2>-->
+        <pre>
+<span class="comment">// i don't know why this works but it does</span>
+let ugh = 0;
+let finally_it_moved = false;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+}
+
+function draw() {
+  <span class="comment">// tried 0.1 — too fast</span>
+  <span class="comment">// tried 0.001 — too slow</span>
+  <span class="key">ugh += 0.018;</span> <span class="comment">// this one felt right</span>
+
+  if (mouseIsPressed) {
+    finally_it_moved = true;
+  }
+
+  <span class="comment">// version 1: grid — too cold</span>
+  <span class="comment">// version 2: random — felt like noise</span>
+  <span class="comment">// version 3: this. keeping this.</span>
+
+  if (finally_it_moved) {
+    fill(0, 0, 0, 12);
+    ellipse(
+      mouseX + sin(ugh) * 40,
+      mouseY + cos(ugh * 1.3) * 40,
+      8, 8
+    );
+  }
+}
+
+<span class="comment">// the elephant is the disconnection</span>
+</pre>
+    </div>
+
+    <div class="code-panel">
+        <div class="student-label">Can you get here with one attempt?</div>
+        <pre>
+let t = 0;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(245, 240, 232);
+}
+
+function draw() {
+  t += 0.018;
+
+  fill(0, 0, 0, 12);
+  noStroke();
+  ellipse(
+    mouseX + sin(t) * 40,
+    mouseY + cos(t * 1.3) * 40,
+    8, 8
+  );
+}
+</pre>
+    </div>
+    <a class="next-btn" href="part-two.html">→</a>
+
+</body></html>

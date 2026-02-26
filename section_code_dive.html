@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+/*            background: #f5f0e8;*/
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .website-panel {
+            position: relative;
+            border-right: 1px solid rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .website-panel iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .website-panel .placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            color: rgba(0, 0, 0, 0.3);
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .code-panel {
+            padding: 48px 44px;
+            overflow-y: auto;
+        }
+
+        .student-label {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.4);
+            margin-bottom: 28px;
+        }
+
+        pre {
+            font-family: monospace;
+            font-size: 0.8rem;
+            line-height: 1.85;
+            color: #000;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .comment {
+            color: rgb(0, 0, 255);
+        }
+
+        /* blue — matches LINK_COLOR */
+        .key {
+            color: rgb(0, 0, 255);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="website-panel">
+        <!-- REPLACE src with actual student website URL -->
+        <!-- <iframe src="https://the-in-the-room.vercel.app/"></iframe> -->
+        <div class="placeholder">
+            <span>student website</span>
+            <span style="opacity:0.4;">replace iframe src</span>
+        </div>
+    </div>
+
+    <div class="code-panel">
+        <div class="student-label">T. — intro to creative coding, spring 2025</div>
+        <pre>
+<span class="comment">// i don't know why this works but it does</span>
+let ugh = 0;
+let finally_it_moved = false;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(245, 240, 232);
+}
+
+function draw() {
+  <span class="comment">// tried this first — too fast</span>
+  <span class="comment">// ugh += 0.1;</span>
+
+  <span class="comment">// tried this — too slow</span>
+  <span class="comment">// ugh += 0.001;</span>
+
+  <span class="key">ugh += 0.018;</span> <span class="comment">// this one felt right</span>
+
+  if (mouseIsPressed) {
+    finally_it_moved = true;
+  }
+
+  if (finally_it_moved) {
+    fill(0, 0, 0, 12);
+    noStroke();
+    ellipse(
+      mouseX + sin(ugh) * 40,
+      mouseY + cos(ugh * 1.3) * 40,
+      8, 8
+    );
+  }
+
+  <span class="comment">// version 1 — drew a grid, too cold</span>
+  <span class="comment">// for (let i = 0; i &lt; width; i += 20) {</span>
+  <span class="comment">//   for (let j = 0; j &lt; height; j += 20) {</span>
+  <span class="comment">//     point(i, j);</span>
+  <span class="comment">//   }</span>
+  <span class="comment">// }</span>
+
+  <span class="comment">// version 2 — random dots, felt like noise</span>
+  <span class="comment">// point(random(width), random(height));</span>
+
+  <span class="comment">// version 3 — this. keeping this.</span>
+}
+
+<span class="comment">// the elephant is the disconnection</span>
+<span class="comment">// "a fellow elephant haver" — keep this line</span>
+</pre>
+    </div>
+    <a class="next-btn" href="section_code_compare.html">→</a>
+
+</body></html>

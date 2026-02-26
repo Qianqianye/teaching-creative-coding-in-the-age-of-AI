@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style.css" />
+<!--
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f0e8; overflow: hidden; font-family: monospace; }
+  canvas { display: block; }
+  .caption { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); font-family: monospace; font-size: 0.8rem; color: rgb(0,0,255); white-space: nowrap; }
+</style>
+-->
+</head>
+<body>
+<!--<div class="caption">keep the bug — it's more interesting than planned</div>-->
+<h2>keep the bug — it's more interesting than planned</h2>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<script>
+const BLUE = [0, 0, 255];
+
+let t = 0, stage = 0, stageT = 0;
+let bugAmount = 0, bugTarget = 0;
+let labels = [];
+
+let stages = [
+  { duration: 180, bug: 0,    onEnter: () => spawnLabel('a grid of circles') },
+  { duration: 120, bug: 0,    onEnter: () => spawnLabel('change the radius...') },
+  { duration: 160, bug: 0.35, onEnter: () => spawnLabel("wait, that's not right") },
+  { duration: 140, bug: 0.35, onEnter: () => spawnLabel("something's leaking into the radius") },
+  { duration: 160, bug: 0.7,  onEnter: () => spawnLabel("it's getting stranger...") },
+  { duration: 160, bug: 1.0,  onEnter: () => spawnLabel("I didn't plan this") },
+  { duration: 999, bug: 1.0,  onEnter: () => spawnLabel('keep the bug', true) },
+];
+
+function spawnLabel(txt, big) {
+  labels = [];
+  labels.push({ txt, alpha: 255, hold: 140, big: !!big });
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  textFont('monospace');
+  stages[0].onEnter();
+}
+
+function draw() {
+  background(255);
+  t++; stageT++;
+
+  if (stage < stages.length - 1 && stageT >= stages[stage].duration) {
+    stage++; stageT = 0;
+    bugTarget = stages[stage].bug;
+    stages[stage].onEnter();
+  }
+  bugAmount += (bugTarget - bugAmount) * 0.018;
+
+  let cols = 7, rows = 7;
+  let mx = width * 0.10, my = height * 0.12;
+  let cw = (width - mx * 2) / (cols - 1);
+  let ch = (height - my * 2) / (rows - 1);
+  let baseR = min(cw, ch) * 0.36;
+
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      let cx = mx + i * cw;
+      let cy = my + j * ch;
+      let cleanR = baseR + sin(t * 0.04) * baseR * 0.14;
+      let buggyR = baseR + sin(t * 0.04 + i * 0.8 + j * 0.3) * (baseR * 0.55 + i * baseR * 0.14 * bugAmount);
+      let r = lerp(cleanR, buggyR, bugAmount);
+
+      // circles — black
+      noFill(); stroke(0, 150); strokeWeight(0.8);
+      circle(cx, cy, r * 2);
+      noStroke(); fill(0, 60); circle(cx, cy, 2.5);
+    }
+  }
+
+  // labels — blue
+  textFont('monospace');
+  for (let k = labels.length - 1; k >= 0; k--) {
+    let lb = labels[k];
+    noStroke();
+    fill(...BLUE, lb.alpha);
+    textSize(lb.big ? 18 : 13);
+    textAlign(CENTER);
+    text(lb.txt, width / 2, height - 20);
+    if (lb.hold > 0) lb.hold--; else lb.alpha -= 0.5;
+    if (lb.alpha <= 0) labels.splice(k, 1);
+  }
+  textAlign(LEFT);
+}
+
+function windowResized() { resizeCanvas(windowWidth, windowHeight); }
+</script>
+
+<a class="next-btn" href="credits.html">→</a>
+</body>
+</html>
