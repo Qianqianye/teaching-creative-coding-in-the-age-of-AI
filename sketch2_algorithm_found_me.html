@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <!--
 <style>
@@ -11,148 +11,155 @@
   .caption { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); font-family: monospace; font-size: 0.8rem; color: rgb(0,0,255); white-space: nowrap; }
 </style>
 -->
-</head>
+  </head>
 
-<body>
+  <body>
     <!--<div class="caption">I didn't find the pattern — the pattern found me</div>-->
     <h2>I didn't find the algorithm, the algorithm found me</h2>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script>
-        const BLUE = [0, 0, 255];
+      const BLUE = [0, 0, 255];
 
-        let t = 0;
-        let trailLayer;
-        let wx, wy, wAngle, lineOx;
-        let labels = [];
-        let lastLabelTime = 0;
+      let t = 0;
+      let trailLayer;
+      let wx, wy, wAngle, lineOx;
+      let labels = [];
+      let lastLabelTime = 0;
 
-        let turnComments = [
-            'curving left...',
-            'wait, looping back',
-            "didn't plan this",
-            'interesting',
-            'what if I keep going',
-            'circling again',
-            'not what I expected',
-            'something is forming',
-            'let it keep going',
-        ];
+      let turnComments = [
+        "curving left...",
+        "wait, looping back",
+        "didn't plan this",
+        "interesting",
+        "what if I keep going",
+        "circling again",
+        "not what I expected",
+        "something is forming",
+        "let it keep going",
+      ];
 
-        let milestones = [{
-                t: 6,
-                text: 'just wandering'
-            },
-            {
-                t: 18,
-                text: 'a pattern?'
-            },
-            {
-                t: 32,
-                text: "I didn't plan this"
-            },
-            {
-                t: 50,
-                text: 'the algorithm found me'
-            },
-        ];
-        let shownMilestones = [];
+      let milestones = [
+        {
+          t: 6,
+          text: "just wandering",
+        },
+        {
+          t: 18,
+          text: "a pattern?",
+        },
+        {
+          t: 32,
+          text: "I didn't plan this",
+        },
+        {
+          t: 50,
+          text: "the algorithm found me",
+        },
+      ];
+      let shownMilestones = [];
 
-        function setup() {
-            createCanvas(windowWidth, windowHeight);
-            textFont('monospace');
-            wx = width / 2;
-            wy = height / 2;
-            wAngle = random(TWO_PI);
-            lineOx = random(5000);
-            trailLayer = createGraphics(width, height);
-            trailLayer.background(255);
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        textFont("monospace");
+        wx = width / 2;
+        wy = height / 2;
+        wAngle = random(TWO_PI);
+        lineOx = random(5000);
+        trailLayer = createGraphics(width, height);
+        trailLayer.background(255);
+      }
+
+      function draw() {
+        //  background(245, 240, 232);
+        background(255);
+        t += 0.004;
+        let seconds = frameCount / 60;
+
+        let curl =
+          sin(t * 1.0) * 0.045 + sin(t * 2.3) * 0.018 + sin(t * 0.4) * 0.028;
+        wAngle += curl;
+
+        let nx = wx + cos(wAngle) * 1.6;
+        let ny = wy + sin(wAngle) * 1.6;
+        let dx = nx - width / 2,
+          dy = ny - height / 2;
+        if (sqrt(dx * dx + dy * dy) > min(width, height) * 0.4) {
+          wAngle = lerp(wAngle, atan2(-dy, -dx), 0.04);
+          nx = wx + cos(wAngle) * 1.6;
+          ny = wy + sin(wAngle) * 1.6;
         }
 
-        function draw() {
-            //  background(245, 240, 232);
-            background(255);
-            t += 0.004;
-            let seconds = frameCount / 60;
+        // trail — black
+        trailLayer.stroke(0, 28);
+        trailLayer.strokeWeight(0.8);
+        trailLayer.line(wx, wy, nx, ny);
+        trailLayer.noStroke();
+        trailLayer.fill(245, 240, 232, 2);
+        trailLayer.rect(0, 0, width, height);
+        wx = nx;
+        wy = ny;
+        image(trailLayer, 0, 0);
 
-            let curl = sin(t * 1.0) * 0.045 + sin(t * 2.3) * 0.018 + sin(t * 0.4) * 0.028;
-            wAngle += curl;
+        // dot — blue
+        noStroke();
+        fill(...BLUE);
+        circle(wx, wy, 5);
 
-            let nx = wx + cos(wAngle) * 1.6;
-            let ny = wy + sin(wAngle) * 1.6;
-            let dx = nx - width / 2,
-                dy = ny - height / 2;
-            if (sqrt(dx * dx + dy * dy) > min(width, height) * 0.40) {
-                wAngle = lerp(wAngle, atan2(-dy, -dx), 0.04);
-                nx = wx + cos(wAngle) * 1.6;
-                ny = wy + sin(wAngle) * 1.6;
-            }
-
-            // trail — black
-            trailLayer.stroke(0, 28);
-            trailLayer.strokeWeight(0.8);
-            trailLayer.line(wx, wy, nx, ny);
-            trailLayer.noStroke();
-            trailLayer.fill(245, 240, 232, 2);
-            trailLayer.rect(0, 0, width, height);
-            wx = nx;
-            wy = ny;
-            image(trailLayer, 0, 0);
-
-            // dot — blue
-            noStroke();
-            fill(...BLUE);
-            circle(wx, wy, 5);
-
-            // spawn turn labels — blue
-            let turnSharpness = abs(curl);
-            if (turnSharpness > 0.038 && seconds - lastLabelTime > 3.5 && random() < 0.015) {
-                labels.push({
-                    x: wx + random(-35, 35),
-                    y: wy + random(-24, 24),
-                    text: random(turnComments),
-                    alpha: 255,
-                    hold: 0,
-                    centered: false
-                });
-                lastLabelTime = seconds;
-            }
-
-            // milestone labels — blue
-            for (let m of milestones) {
-                if (seconds > m.t && !shownMilestones.includes(m.t)) {
-                    labels = labels.filter(lb => !lb.centered);
-                    labels.push({
-                        x: width / 2,
-                        y: height - 20,
-                        text: m.text,
-                        alpha: 255,
-                        hold: 0,
-                        centered: true
-                    });
-                    shownMilestones.push(m.t);
-                }
-            }
-
-            textFont('monospace');
-            for (let i = labels.length - 1; i >= 0; i--) {
-                let lb = labels[i];
-                noStroke();
-                fill(...BLUE, lb.alpha);
-                textSize(13);
-                textAlign(lb.centered ? CENTER : LEFT);
-                text(lb.text, lb.x, lb.y);
-                lb.alpha -= lb.centered ? 0.18 : 0.28;
-                if (lb.alpha <= 0) labels.splice(i, 1);
-            }
-            textAlign(LEFT);
+        // spawn turn labels — blue
+        let turnSharpness = abs(curl);
+        if (
+          turnSharpness > 0.038 &&
+          seconds - lastLabelTime > 3.5 &&
+          random() < 0.015
+        ) {
+          labels.push({
+            x: wx + random(-35, 35),
+            y: wy + random(-24, 24),
+            text: random(turnComments),
+            alpha: 255,
+            hold: 0,
+            centered: false,
+          });
+          lastLabelTime = seconds;
         }
 
-        function windowResized() {
-            resizeCanvas(windowWidth, windowHeight);
-            trailLayer = createGraphics(width, height);
-            trailLayer.background(245, 240, 232);
+        // milestone labels — blue
+        for (let m of milestones) {
+          if (seconds > m.t && !shownMilestones.includes(m.t)) {
+            labels = labels.filter((lb) => !lb.centered);
+            labels.push({
+              x: width / 2,
+              y: height - 20,
+              text: m.text,
+              alpha: 255,
+              hold: 0,
+              centered: true,
+            });
+            shownMilestones.push(m.t);
+          }
         }
+
+        textFont("monospace");
+        for (let i = labels.length - 1; i >= 0; i--) {
+          let lb = labels[i];
+          noStroke();
+          fill(...BLUE, lb.alpha);
+          textSize(13);
+          textAlign(lb.centered ? CENTER : LEFT);
+          text(lb.text, lb.x, lb.y);
+          lb.alpha -= lb.centered ? 0.18 : 0.28;
+          if (lb.alpha <= 0) labels.splice(i, 1);
+        }
+        textAlign(LEFT);
+      }
+
+      function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+        trailLayer = createGraphics(width, height);
+        trailLayer.background(245, 240, 232);
+      }
     </script>
 
     <a class="next-btn" href="sketch4_keep_the_bug.html">→</a>
-</body></html>
+  </body>
+</html>

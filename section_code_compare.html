@@ -1,67 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            font-family: monospace;
-            font-size: 0.8rem;
-        }
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-family: monospace;
+        font-size: 0.8rem;
+      }
 
-        .code-panel {
-            padding: 52px 48px;
-            overflow-y: auto;
-            border-right: 1px solid rgba(0, 0, 0, 0.15);
-        }
+      .code-panel {
+        padding: 52px 48px;
+        overflow-y: auto;
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
+      }
 
-        .code-panel:last-child {
-            border-right: none;
-        }
+      .code-panel:last-child {
+        border-right: none;
+      }
 
-        .student-label {
-            font-size: 0.8rem;
-            color: rgba(0, 0, 0, 0.4);
-            margin-bottom: 28px;
-        }
+      .student-label {
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 28px;
+      }
 
-        pre {
-            font-family: monospace;
-            font-size: 0.8rem;
-            line-height: 1.9;
-            color: #000;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
+      pre {
+        font-family: monospace;
+        font-size: 0.8rem;
+        line-height: 1.9;
+        color: #000;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
 
-        .comment {
-            color: rgb(0, 0, 255);
-        }
+      .comment {
+        color: rgb(0, 0, 255);
+      }
 
-        .key {
-            color: rgb(0, 0, 255);
-            font-weight: bold;
-        }
+      .key {
+        color: rgb(0, 0, 255);
+        font-weight: bold;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <div class="code-panel">
-        <div class="student-label">the commented-out experiments — searching</div>
-        <!--  <h2>the commented-out experiments — searching</h2>-->
-        <pre>
+      <div class="student-label">the commented-out experiments — searching</div>
+      <!--  <h2>the commented-out experiments — searching</h2>-->
+      <pre>
 <span class="comment">// i don't know why this works but it does</span>
 let ugh = 0;
 let finally_it_moved = false;
@@ -98,8 +97,8 @@ function draw() {
     </div>
 
     <div class="code-panel">
-        <div class="student-label">Can you get here with one attempt?</div>
-        <pre>
+      <div class="student-label">Can you get here with one attempt?</div>
+      <pre>
 let t = 0;
 
 function setup() {
@@ -118,8 +117,9 @@ function draw() {
     8, 8
   );
 }
-</pre>
+</pre
+      >
     </div>
     <a class="next-btn" href="part-two.html">→</a>
-
-</body></html>
+  </body>
+</html>
