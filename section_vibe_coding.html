@@ -1,68 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #f5f0e8;
-    width: 100vw; height: 100vh;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    font-family: monospace;
-    font-size: 0.8rem;
-  }
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #f5f0e8;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-family: monospace;
+        font-size: 0.8rem;
+      }
 
-  .panel {
-    position: relative;
-    border-right: 1px solid rgba(0,0,0,0.15);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  .panel:last-child { border-right: none; }
+      .panel {
+        position: relative;
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .panel:last-child {
+        border-right: none;
+      }
 
-  .panel-label {
-    padding: 14px 20px 12px;
-    font-family: monospace;
-    font-size: 0.8rem;
-    color: rgb(0,0,255);
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    background: #f5f0e8;
-  }
+      .panel-label {
+        padding: 14px 20px 12px;
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: rgb(0, 0, 255);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+        background: #f5f0e8;
+      }
 
-  .panel-label .url {
-    font-size: 0.72rem;
-    color: rgba(0,0,0,0.4);
-    margin-top: 3px;
-  }
+      .panel-label .url {
+        font-size: 0.72rem;
+        color: rgba(0, 0, 0, 0.4);
+        margin-top: 3px;
+      }
 
-  .panel iframe {
-    flex: 1;
-    width: 100%;
-    border: none;
-  }
-</style>
-</head>
-<body>
+      .panel iframe {
+        flex: 1;
+        width: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <div class="panel-label">
+        IML 300 vibe coding — fall 2025
+        <div class="url">qianqian-ye.com/iml300-vibe-coding-fall2025/</div>
+      </div>
+      <iframe
+        src="https://qianqian-ye.com/iml300-vibe-coding-fall2025/"
+      ></iframe>
+    </div>
 
-<div class="panel">
-  <div class="panel-label">
-    IML 300 vibe coding — fall 2025
-    <div class="url">qianqian-ye.com/iml300-vibe-coding-fall2025/</div>
-  </div>
-  <iframe src="https://qianqian-ye.com/iml300-vibe-coding-fall2025/"></iframe>
-</div>
-
-<div class="panel">
-  <div class="panel-label">
-    student vibe coding
-    <div class="url">kelmcao.github.io/iml300/</div>
-  </div>
-  <iframe src="https://kelmcao.github.io/iml300/"></iframe>
-</div>
-
-</body>
+    <div class="panel">
+      <div class="panel-label">
+        student vibe coding
+        <div class="url">kelmcao.github.io/iml300/</div>
+      </div>
+      <iframe src="https://kelmcao.github.io/iml300/"></iframe>
+    </div>
+  </body>
 </html>

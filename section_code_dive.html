@@ -2,11 +2,17 @@
 <html>
   <head>
     <meta charset="utf-8" />
+
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       body {
-        background: #f5f0e8;
-        width: 100vw; height: 100vh;
+        /* background: #f5f0e8; */
+        width: 100vw;
+        height: 100vh;
         overflow: hidden;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -16,51 +22,81 @@
 
       .sketch-panel {
         position: relative;
-        border-right: 1px solid rgba(0,0,0,0.15);
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
         overflow: hidden;
-        background: #f5f0e8;
+        background: ##fff;
       }
-      .sketch-panel canvas { display: block; }
+      .sketch-panel canvas {
+        display: block;
+      }
 
-      .code-panel { padding: 48px 44px; overflow-y: auto; }
-      .student-label { font-size: 0.8rem; color: rgba(0,0,0,0.4); margin-bottom: 28px; }
+      .code-panel {
+        padding: 48px 44px;
+        overflow-y: auto;
+      }
+      .student-label {
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 28px;
+      }
 
       pre {
-        font-family: monospace; font-size: 0.8rem;
-        line-height: 1.85; color: #000;
-        white-space: pre-wrap; word-break: break-word;
+        font-family: monospace;
+        font-size: 0.8rem;
+        line-height: 1.85;
+        color: #000;
+        white-space: pre-wrap;
+        word-break: break-word;
       }
-      .comment { color: rgb(0,0,255); }
-      .key     { color: rgb(0,0,255); font-weight: bold; }
+      .comment {
+        color: rgb(0, 0, 255);
+      }
+      .key {
+        color: rgb(0, 0, 255);
+        font-weight: bold;
+      }
 
       /* highlight the line that's currently "running" */
       .line-active {
-        background: rgba(0,0,255,0.07);
+        background: rgba(0, 0, 255, 0.07);
         display: inline-block;
         width: 100%;
       }
 
       .next-btn {
-        position: fixed; bottom: 20px; right: 24px;
-        font-family: monospace; font-size: 0.8rem;
-        color: rgb(0,0,255); text-decoration: none; z-index: 10;
+        position: fixed;
+        right: 0;
+        /* bottom: 50vh; */
+        bottom: 0;
+        margin: 1%;
+        text-decoration: none;
+        font-size: 30em;
       }
-      .next-btn:hover { text-decoration: underline; }
+
+      .credits-ctn h1 {
+        font-size: 4.5em;
+        text-align: center;
+      }
+      a:visited {
+        color: #0000ee;
+      }
     </style>
+    <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
   </head>
   <body>
-
     <div class="sketch-panel" id="sketch-panel"></div>
 
     <div class="code-panel">
-      <div class="student-label">T. — intro to creative web programming, fall 2024</div>
+      <div class="student-label">
+        Assignment 2 — Intro to creative web programming, fall 2024
+      </div>
       <pre><span class="comment">// i don't know why this works but it does</span>
 let ugh = 0;
 let finally_it_moved = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(245, 240, 232);
+  background(255);
 }
 
 function draw() {
@@ -103,57 +139,54 @@ function draw() {
 <span class="comment">// "a fellow elephant haver" — keep this line</span></pre>
     </div>
 
-    <a class="next-btn" href="section_code_compare.html">→</a>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <script>
-    // This is exactly T.'s code — what the right panel shows is what runs here.
-    // ugh += 0.018, mouseX/mouseY orbit, fill(0,0,255,40) for blue.
-    // Mouse is simulated so it works without interaction.
+      // This is exactly T.'s code — what the right panel shows is what runs here.
+      // ugh += 0.018, mouseX/mouseY orbit, fill(0,0,255,40) for blue.
+      // Mouse is simulated so it works without interaction.
 
-    new p5(function(p) {
-      let ugh = 0;
-      let finally_it_moved = true; // auto-start so the sketch shows immediately
-      let mx, my;     // simulated mouse that drifts slowly
-      let mox, moy;   // noise offsets
+      new p5(function (p) {
+        let ugh = 0;
+        let finally_it_moved = true; // auto-start so the sketch shows immediately
+        let mx, my; // simulated mouse that drifts slowly
+        let mox, moy; // noise offsets
 
-      p.setup = function() {
-        let el = document.getElementById('sketch-panel');
-        p.createCanvas(el.offsetWidth, el.offsetHeight).parent('sketch-panel');
-        p.frameRate(60);
-        p.background(245, 240, 232);
-        mx   = p.width / 2;
-        my   = p.height / 2;
-        mox  = p.random(1000);
-        moy  = p.random(2000);
-      };
+        p.setup = function () {
+          let el = document.getElementById("sketch-panel");
+          p.createCanvas(el.offsetWidth, el.offsetHeight).parent(
+            "sketch-panel",
+          );
+          p.frameRate(60);
+          p.background(255);
+          mx = p.width / 2;
+          my = p.height / 2;
+          mox = p.random(1000);
+          moy = p.random(2000);
+        };
 
-      p.draw = function() {
-        // no background clear — trail accumulates, exactly like T.'s code
+        p.draw = function () {
+          // no background clear — trail accumulates, exactly like T.'s code
 
-        ugh += 0.018; // this one felt right
+          ugh += 0.018; // this one felt right
 
-        // simulate a slowly drifting "mouseX/mouseY"
-        let t = p.frameCount * 0.004;
-        mx = p.width  * 0.5 + (p.noise(mox + t) - 0.5) * p.width  * 0.55;
-        my = p.height * 0.5 + (p.noise(moy + t) - 0.5) * p.height * 0.55;
+          // simulate a slowly drifting "mouseX/mouseY"
+          let t = p.frameCount * 0.004;
+          mx = p.width * 0.5 + (p.noise(mox + t) - 0.5) * p.width * 0.55;
+          my = p.height * 0.5 + (p.noise(moy + t) - 0.5) * p.height * 0.55;
 
-        // exactly T.'s draw call — blue instead of black so it reads on screen
-        p.fill(0, 0, 255, 40);
-        p.noStroke();
-        p.ellipse(
-          mx + p.sin(ugh) * 80,
-          my + p.cos(ugh * 1.3) * 80,
-          9, 9
-        );
-      };
+          // exactly T.'s draw call — blue instead of black so it reads on screen
+          p.fill(0, 0, 255, 40);
+          p.noStroke();
+          p.ellipse(mx + p.sin(ugh) * 80, my + p.cos(ugh * 1.3) * 80, 9, 9);
+        };
 
-      p.windowResized = function() {
-        let el = document.getElementById('sketch-panel');
-        p.resizeCanvas(el.offsetWidth, el.offsetHeight);
-        p.background(245, 240, 232);
-      };
-    });
+        p.windowResized = function () {
+          let el = document.getElementById("sketch-panel");
+          p.resizeCanvas(el.offsetWidth, el.offsetHeight);
+          p.background(255);
+        };
+      });
     </script>
+    <a class="next-btn" href="part-two.html">→</a>
   </body>
 </html>
