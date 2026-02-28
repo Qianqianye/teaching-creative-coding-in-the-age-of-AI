@@ -13,10 +13,11 @@
       body {
         /* background: #f5f0e8; */
         width: 100vw;
-        height: 100vh;
+        height: 50vh;
         overflow: hidden;
         font-family: monospace;
-        font-size: 0.8rem;
+        font-size: 2.8rem;
+        /* overflow: scroll; */
       }
 
       /* top bar */
@@ -36,7 +37,8 @@
       }
       .header-prompt {
         color: rgb(0, 0, 255);
-        font-size: 0.8rem;
+        /* margin-top: 5vh; */
+        font-size: 2.8rem;
         font-style: italic;
       }
       .header-label {
@@ -67,9 +69,12 @@
 
       /* scale down portfolio sites to thumbnail */
       .cell.portfolio iframe {
-        width: 1440px;
-        height: 900px;
-        border: none;
+        /* width: 3840px;
+        height: 1080px; */
+        /* border: none; */
+        width: 100vw;
+        height: 100vh;
+
         transform-origin: top left;
         pointer-events: none;
         /* scale set by JS based on cell size */
@@ -78,9 +83,10 @@
       /* v0 chat cell — full size, no scaling needed */
       .cell.chat iframe {
         width: 100%;
-        height: 100%;
+        height: 50%;
         border: none;
         pointer-events: none;
+        border: 10px solid red;
       }
 
       /* hover outline */
@@ -102,7 +108,7 @@
         bottom: 10px;
         left: 12px;
         font-family: monospace;
-        font-size: 0.75rem;
+        font-size: 2.75rem;
         color: rgba(0, 0, 0, 0.35);
         pointer-events: none;
         z-index: 2;
@@ -117,7 +123,7 @@
         top: 12px;
         left: 12px;
         font-family: monospace;
-        font-size: 0.75rem;
+        font-size: 2.75rem;
         color: rgb(0, 0, 255);
         background: rgba(245, 240, 232, 0.92);
         padding: 4px 8px;
@@ -151,12 +157,12 @@
         gap: 16px;
       }
       #overlay-title {
-        font-size: 0.8rem;
+        font-size: 2.8rem;
         color: rgba(0, 0, 0, 0.4);
       }
       #overlay-close {
         margin-left: auto;
-        font-size: 0.8rem;
+        font-size: 2.8rem;
         color: rgb(0, 0, 255);
         cursor: pointer;
       }
@@ -173,8 +179,8 @@
       .next-btn {
         position: fixed;
         right: 0;
-        /* bottom: 50vh; */
-        bottom: 0;
+        bottom: 50vh;
+        /* bottom: 0; */
         margin: 1%;
         text-decoration: none;
         font-size: 30em;

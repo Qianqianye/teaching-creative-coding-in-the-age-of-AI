@@ -9,15 +9,18 @@ body {
   /* height: 50vh; */
   overflow: hidden;
   /* border: solid; */
+  /* border: 1px solid red; */
 }
 h1 {
-  font-size: 6.5em;
+  margin-top: 0px;
+  font-size: 16em;
   margin-bottom: 60px;
   color: #0000ee;
 }
 
 h2 {
-  font-size: 4.5em;
+  /* font-size: 4.5em; */
+  font-size: 8em;
   margin-bottom: 30px;
   color: #0000ee;
 }
@@ -41,8 +44,8 @@ p {
 .next-btn {
   position: fixed;
   right: 0;
-  /* bottom: 50vh; */
-  bottom: 0;
+  bottom: 50vh;
+  /* bottom: 0; */
   margin: 1%;
   text-decoration: none;
   font-size: 30em;
@@ -56,14 +59,14 @@ a:visited {
   color: #0000ee;
 }
 
-.ele-btn{
+.ele-btn {
   font-size: 100px;
 }
 
-.img-flex{
+.img-flex {
   display: flex;
 
-  img{
+  img {
     padding: 10px;
   }
 }
