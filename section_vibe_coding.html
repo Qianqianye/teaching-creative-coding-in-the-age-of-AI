@@ -9,10 +9,10 @@
         box-sizing: border-box;
       }
       body {
-        background: #f5f0e8;
+        /* background: #f5f0e8; */
         width: 100vw;
         height: 100vh;
-        overflow: hidden;
+        /* overflow: hidden; */
         display: grid;
         grid-template-columns: 1fr 1fr;
         font-family: monospace;
@@ -25,6 +25,7 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        height: 100vh;
       }
       .panel:last-child {
         border-right: none;
@@ -37,7 +38,7 @@
         color: rgb(0, 0, 255);
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         flex-shrink: 0;
-        background: #f5f0e8;
+        /* background: #f5f0e8; */
       }
 
       .panel-label .url {
@@ -50,6 +51,23 @@
         flex: 1;
         width: 100%;
         border: none;
+      }
+      .next-btn {
+        position: fixed;
+        right: 0;
+        /* bottom: 50vh; */
+        bottom: 0;
+        margin: 1%;
+        text-decoration: none;
+        font-size: 30em;
+      }
+
+      .credits-ctn h1 {
+        font-size: 4.5em;
+        text-align: center;
+      }
+      a:visited {
+        color: #0000ee;
       }
     </style>
   </head>
@@ -71,5 +89,6 @@
       </div>
       <iframe src="https://kelmcao.github.io/iml300/"></iframe>
     </div>
+    <a class="next-btn" href="credits.html">→</a>
   </body>
 </html>
