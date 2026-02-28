@@ -55,3 +55,15 @@ p {
 a:visited {
   color: #0000ee;
 }
+
+.ele-btn{
+  font-size: 100px;
+}
+
+.img-flex{
+  display: flex;
+
+  img{
+    padding: 10px;
+  }
+}
