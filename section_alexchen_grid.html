@@ -2,16 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-
+    <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
     <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
+
       body {
-        /*        background: #f5f0e8;*/
+        /* background: #f5f0e8; */
         width: 100vw;
         height: 100vh;
         overflow: hidden;
@@ -19,127 +19,313 @@
         font-size: 0.8rem;
       }
 
-      /*
+      /* top bar */
       .header {
         position: absolute;
-        top: 20px;
-        left: 24px;
-        font-family: monospace;
-        font-size: 0.8rem;
-        color: rgb(0, 0, 255);
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         z-index: 2;
+        background: #f5f0e8;
+        gap: 24px;
       }
-*/
+      .header-prompt {
+        color: rgb(0, 0, 255);
+        font-size: 0.8rem;
+        font-style: italic;
+      }
+      .header-label {
+        color: rgba(0, 0, 0, 0.35);
+        font-size: 0.8rem;
+      }
 
+      /* 2x2 grid */
       .grid {
+        position: absolute;
+        top: 36px;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: 2px;
-        width: 100%;
-        height: 80%;
-        padding: 48px 4px 4px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 1px;
+        background: rgba(0, 0, 0, 0.1); /* gap color */
       }
+
       .cell {
         position: relative;
         overflow: hidden;
-        background: #ede8e0;
+        background: #f5f0e8;
         cursor: pointer;
-        border: 1px solid rgba(0, 0, 0, 0.08);
       }
-      .cell:hover {
-        border-color: rgb(0, 0, 255);
-      }
-      .cell iframe {
+
+      /* scale down portfolio sites to thumbnail */
+      .cell.portfolio iframe {
         width: 1440px;
         height: 900px;
         border: none;
-        transform: scale(0.2);
         transform-origin: top left;
         pointer-events: none;
-      }
-      .cell-label {
-        position: absolute;
-        bottom: 7px;
-        left: 9px;
-        font-family: monospace;
-        font-size: 0.75rem;
-        color: rgb(0, 0, 255);
+        /* scale set by JS based on cell size */
       }
 
-      #fullscreen {
-        position: fixed;
-        inset: 0;
-        background: #f5f0e8;
-        z-index: 10;
-        display: none;
-      }
-      #fullscreen.on {
-        display: block;
-      }
-      #fullscreen iframe {
+      /* v0 chat cell — full size, no scaling needed */
+      .cell.chat iframe {
         width: 100%;
         height: 100%;
         border: none;
+        pointer-events: none;
       }
-      #fullscreen-close {
+
+      /* hover outline */
+      .cell::after {
+        content: "";
         position: absolute;
-        top: 18px;
-        right: 24px;
+        inset: 0;
+        border: 2px solid transparent;
+        pointer-events: none;
+        transition: border-color 0.15s;
+      }
+      .cell:hover::after {
+        border-color: rgb(0, 0, 255);
+      }
+
+      /* cell label — bottom left */
+      .cell-label {
+        position: absolute;
+        bottom: 10px;
+        left: 12px;
         font-family: monospace;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.35);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .cell-label .tool {
+        color: rgb(0, 0, 255);
+      }
+
+      /* prompt badge on chat cell */
+      .cell.chat .prompt-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: rgb(0, 0, 255);
+        background: rgba(245, 240, 232, 0.92);
+        padding: 4px 8px;
+        border: 1px solid rgba(0, 0, 255, 0.3);
+        pointer-events: none;
+        z-index: 2;
+        max-width: calc(100% - 24px);
+        line-height: 1.5;
+      }
+
+      /* ── fullscreen overlay ── */
+      #overlay {
+        position: fixed;
+        inset: 0;
+        background: #f5f0e8;
+        z-index: 20;
+        display: none;
+        flex-direction: column;
+      }
+      #overlay.on {
+        display: flex;
+      }
+
+      #overlay-bar {
+        height: 36px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        gap: 16px;
+      }
+      #overlay-title {
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.4);
+      }
+      #overlay-close {
+        margin-left: auto;
         font-size: 0.8rem;
         color: rgb(0, 0, 255);
         cursor: pointer;
-        z-index: 11;
       }
-      #fullscreen-close:hover {
+      #overlay-close:hover {
         text-decoration: underline;
+      }
+
+      #overlay-frame {
+        flex: 1;
+        border: none;
+        width: 100%;
+      }
+
+      .next-btn {
+        position: fixed;
+        right: 0;
+        /* bottom: 50vh; */
+        bottom: 0;
+        margin: 1%;
+        text-decoration: none;
+        font-size: 30em;
+      }
+
+      .credits-ctn h1 {
+        font-size: 4.5em;
+        text-align: center;
+      }
+      a:visited {
+        color: #0000ee;
       }
     </style>
   </head>
   <body>
-    <h2>Claude: Create a portfolio website for a media arts student</h2>
-    <!--    <div class="header">Q homework submissions — received today</div>-->
-    <div class="grid" id="grid"></div>
+    <div class="header">
+      <span class="header-label">Claude, Lovable, V0</span>
+      <span class="header-prompt"
+        >"make a portfolio website for a cool student at the Media Arts +
+        Practice program at USC"</span
+      >
+    </div>
 
-    <div id="fullscreen">
-      <div id="fullscreen-close" onclick="closeFullscreen()">[ esc ]</div>
-      <iframe id="fullscreen-iframe" src=""></iframe>
+    <!-- <h2>
+      "Claude, Lovable, V0: make a portfolio website for a cool student at the
+      Media Arts + Practice program at USC"
+    </h2> -->
+
+    <div class="grid" id="grid">
+      <!-- CELL 1: lovable -->
+      <div
+        class="cell chat"
+        id="cell-0"
+        data-url="https://creative-tech-student-site.lovable.app/"
+        data-tool="lovable"
+      >
+        <iframe
+          id="iframe-0"
+          src="https://creative-tech-student-site.lovable.app/"
+        ></iframe>
+        <div class="cell-label">
+          alex chen — <span class="tool">lovable</span>
+        </div>
+      </div>
+
+      <!-- CELL 2: v0 vercel -->
+      <div
+        class="cell chat"
+        id="cell-1"
+        data-url="https://v0-student-portfolio-website-omega-plum.vercel.app/"
+        data-tool="v0"
+      >
+        <iframe
+          id="iframe-1"
+          src="https://v0-student-portfolio-website-omega-plum.vercel.app/"
+        ></iframe>
+        <div class="cell-label">alex chen — <span class="tool">v0</span></div>
+      </div>
+
+      <!-- CELL 3: Claude 2026 -->
+      <div
+        class="cell chat"
+        id="cell-2"
+        data-url="https://qianqian-ye.com/teaching-creative-coding-in-the-age-of-AI/asset/ai-generated-site/alex-2.html"
+        data-tool="claude"
+      >
+        <iframe
+          id="iframe-2"
+          src="https://qianqian-ye.com/teaching-creative-coding-in-the-age-of-AI/asset/ai-generated-site/alex-2.html"
+        ></iframe>
+        <div class="cell-label">
+          alex chen — <span class="tool">claude 2026</span>
+        </div>
+      </div>
+
+      <!-- CELL 4: Claude 2025 -->
+      <div
+        class="cell chat"
+        id="cell-3"
+        data-url="https://qianqian-ye.com/teaching-creative-coding-in-the-age-of-AI/asset/ai-generated-site/alex-1.html"
+        data-tool="prompt"
+      >
+        <iframe
+          id="iframe-3"
+          src="https://qianqian-ye.com/teaching-creative-coding-in-the-age-of-AI/asset/ai-generated-site/alex-1.html"
+        ></iframe>
+        <div class="prompt-badge">// the prompt that made all of these</div>
+        <div class="cell-label">
+          alex chen — <span class="tool">claude 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- fullscreen overlay -->
+    <div id="overlay">
+      <div id="overlay-bar">
+        <span id="overlay-title"></span>
+        <span id="overlay-close" onclick="closeOverlay()"
+          >[ esc to close ]</span
+        >
+      </div>
+      <iframe id="overlay-frame" src=""></iframe>
     </div>
 
     <script>
-      const submissions = [
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-        { name: "alex chen", url: "" },
-      ];
-      const grid = document.getElementById("grid");
-      submissions.forEach((s) => {
-        const cell = document.createElement("div");
-        cell.className = "cell";
-        cell.innerHTML = `<iframe src="${s.url}" loading="lazy" scrolling="no" tabindex="-1"></iframe><div class="cell-label">${s.name}</div>`;
-        cell.addEventListener("click", () => openFullscreen(s.url));
-        grid.appendChild(cell);
+      // ── scale portfolio iframes to thumbnail ─────────────────
+      function scaleCell(cellEl) {
+        const iframe = cellEl.querySelector("iframe");
+        if (!iframe || cellEl.classList.contains("chat")) return;
+        const cw = cellEl.offsetWidth;
+        const ch = cellEl.offsetHeight;
+        const scaleX = cw / 1440;
+        const scaleY = ch / 900;
+        const scale = Math.min(scaleX, scaleY);
+        iframe.style.transform = `scale(${scale})`;
+        iframe.style.width = "1440px";
+        iframe.style.height = "900px";
+      }
+
+      function scaleAll() {
+        document.querySelectorAll(".cell.portfolio").forEach(scaleCell);
+      }
+
+      scaleAll();
+      window.addEventListener("resize", scaleAll);
+
+      // ── click to expand ───────────────────────────────────────
+      document.querySelectorAll(".cell").forEach((cell) => {
+        cell.addEventListener("click", () => {
+          const url = cell.dataset.url;
+          const tool = cell.dataset.tool;
+          openOverlay(url, tool);
+        });
       });
-      const overlay = document.getElementById("fullscreen");
-      const fsIframe = document.getElementById("fullscreen-iframe");
-      function openFullscreen(url) {
-        fsIframe.src = url;
+
+      const overlay = document.getElementById("overlay");
+      const overlayFrame = document.getElementById("overlay-frame");
+      const overlayTitle = document.getElementById("overlay-title");
+
+      function openOverlay(url, tool) {
+        overlayTitle.textContent = `alex chen — ${tool}`;
+        overlayFrame.src = url;
         overlay.classList.add("on");
       }
-      function closeFullscreen() {
+      function closeOverlay() {
         overlay.classList.remove("on");
-        fsIframe.src = "";
+        overlayFrame.src = "";
       }
+
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeFullscreen();
+        if (e.key === "Escape") closeOverlay();
       });
     </script>
     <a class="next-btn" href="part-three.html">→</a>
