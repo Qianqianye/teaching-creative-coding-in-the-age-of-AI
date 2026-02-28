@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alex Chen - Media Art + Practice</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .floating-shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .shape1 {
+        width: 80px;
+        height: 80px;
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+      .shape2 {
+        width: 60px;
+        height: 60px;
+        top: 60%;
+        left: 80%;
+        animation-delay: 2s;
+      }
+      .shape3 {
+        width: 100px;
+        height: 100px;
+        top: 40%;
+        left: 60%;
+        animation-delay: 4s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+        }
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 20px 50px;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      nav.scrolled {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px 50px;
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: #4ecdc4;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #4ecdc4;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero-content h1 {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards;
+      }
+
+      .hero-content p {
+        font-size: 1.4rem;
+        margin-bottom: 30px;
+        opacity: 0;
+        animation: fadeInUp 1s ease 0.3s forwards;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 15px 30px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        opacity: 0;
+        animation: fadeInUp 1s ease 0.6s forwards;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Sections */
+      section {
+        padding: 80px 50px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        text-align: center;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* About Section */
+      .about {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 60px;
+        margin: 50px 0;
+        backdrop-filter: blur(10px);
+      }
+
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .profile-img {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        transition: transform 0.3s ease;
+      }
+
+      .profile-img:hover {
+        transform: scale(1.05);
+      }
+
+      /* Portfolio Grid */
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .portfolio-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        overflow: hidden;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+      .portfolio-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .portfolio-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .portfolio-item-content {
+        padding: 25px;
+      }
+
+      .portfolio-item h3 {
+        margin-bottom: 10px;
+        color: #4ecdc4;
+      }
+
+      /* Skills */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .skill-category {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .skill-category:hover {
+        transform: translateY(-5px);
+      }
+
+      .skill-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Contact */
+      .contact {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 60px;
+        margin: 50px 0;
+        backdrop-filter: blur(10px);
+      }
+
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .contact-link {
+        display: inline-block;
+        padding: 15px 25px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+      }
+
+      .contact-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-3px);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero-content h1 {
+          font-size: 2.5rem;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        nav {
+          padding: 15px 25px;
+        }
+
+        section {
+          padding: 50px 25px;
+        }
+
+        .contact-links {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Scroll animations */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+      <div class="floating-shape shape1"></div>
+      <div class="floating-shape shape2"></div>
+      <div class="floating-shape shape3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+      <div class="nav-container">
+        <div class="logo">Alex Chen</div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Creative Technologist</h1>
+        <p>
+          USC Media Art + Practice Student | Digital Artist | Interactive
+          Designer
+        </p>
+        <a href="#portfolio" class="cta-button">View My Work</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="fade-in">
+      <div class="about">
+        <h2>About Me</h2>
+        <div class="about-content">
+          <img
+            src="data:image/svg+xml,%3Csvg width='250' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='250' height='250' fill='%23667eea'/%3E%3Ccircle cx='125' cy='125' r='60' fill='%23fff' opacity='0.3'/%3E%3Ctext x='125' y='135' text-anchor='middle' fill='%23fff' font-size='20' font-family='Arial'%3EProfile%3C/text%3E%3C/svg%3E"
+            alt="Profile"
+            class="profile-img"
+          />
+          <div>
+            <p>
+              I'm a passionate Media Art + Practice student at USC, exploring
+              the intersection of technology, art, and human experience. My work
+              spans digital installations, interactive media, and experimental
+              design.
+            </p>
+            <br />
+            <p>
+              Through my studies, I've developed a deep appreciation for how
+              emerging technologies can create meaningful connections and
+              transform traditional artistic practices. I'm particularly
+              interested in immersive experiences and how they can challenge our
+              perception of reality.
+            </p>
+            <br />
+            <p>
+              When I'm not coding or creating, you can find me exploring LA's
+              vibrant art scene, attending gallery openings, or experimenting
+              with new creative tools.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="fade-in">
+      <h2>Featured Work</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <img
+            src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b6b'/%3E%3Cstop offset='100%25' style='stop-color:%234ecdc4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url(%23grad1)'/%3E%3Ccircle cx='150' cy='100' r='40' fill='%23fff' opacity='0.8'/%3E%3Ctext x='150' y='110' text-anchor='middle' fill='%23333' font-size='14' font-family='Arial'%3EInteractive%3C/text%3E%3C/svg%3E"
+            alt="Interactive Installation"
+          />
+          <div class="portfolio-item-content">
+            <h3>Neural Dreams</h3>
+            <p>
+              An interactive installation exploring AI consciousness through
+              generative visuals and responsive soundscapes. Built with
+              TouchDesigner and Arduino sensors.
+            </p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img
+            src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23764ba2'/%3E%3Cstop offset='100%25' style='stop-color:%23667eea'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url(%23grad2)'/%3E%3Crect x='50' y='50' width='200' height='100' fill='%23fff' opacity='0.3' rx='10'/%3E%3Ctext x='150' y='110' text-anchor='middle' fill='%23fff' font-size='16' font-family='Arial'%3EWeb Experience%3C/text%3E%3C/svg%3E"
+            alt="Web Experience"
+          />
+          <div class="portfolio-item-content">
+            <h3>Digital Memories</h3>
+            <p>
+              A web-based narrative experience combining photography, poetry,
+              and interactive elements to explore themes of nostalgia and
+              digital identity.
+            </p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img
+            src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%234ecdc4'/%3E%3Cstop offset='100%25' style='stop-color:%2345b7aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url(%23grad3)'/%3E%3Cpolygon points='150,40 200,160 100,160' fill='%23fff' opacity='0.6'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%23fff' font-size='14' font-family='Arial'%3EAR Project%3C/text%3E%3C/svg%3E"
+            alt="AR Project"
+          />
+          <div class="portfolio-item-content">
+            <h3>Augmented Reality Garden</h3>
+            <p>
+              An AR mobile application that transforms urban spaces into
+              interactive digital gardens, promoting environmental awareness
+              through play.
+            </p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img
+            src="data:image/svg+xml,%3Csvg width='300' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='grad4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff6b6b'/%3E%3Cstop offset='100%25' style='stop-color:%23764ba2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='url(%23grad4)'/%3E%3Ccircle cx='100' cy='70' r='25' fill='%23fff' opacity='0.7'/%3E%3Ccircle cx='200' cy='130' r='35' fill='%23fff' opacity='0.5'/%3E%3Ctext x='150' y='190' text-anchor='middle' fill='%23fff' font-size='12' font-family='Arial'%3EGenerative Art%3C/text%3E%3C/svg%3E"
+            alt="Generative Art"
+          />
+          <div class="portfolio-item-content">
+            <h3>Algorithmic Emotions</h3>
+            <p>
+              A series of generative art pieces using machine learning to
+              visualize emotional states through abstract forms and colors.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="fade-in">
+      <h2>Skills & Tools</h2>
+      <div class="skills">
+        <div class="skill-category">
+          <div class="skill-icon">🎨</div>
+          <h3>Creative Coding</h3>
+          <p>Processing, p5.js, TouchDesigner, Max/MSP, Unity, Unreal Engine</p>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-icon">💻</div>
+          <h3>Web Technologies</h3>
+          <p>HTML5, CSS3, JavaScript, React, WebGL, Three.js, Node.js</p>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-icon">🔧</div>
+          <h3>Hardware & Electronics</h3>
+          <p>Arduino, Raspberry Pi, Sensors, LED Systems, Physical Computing</p>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-icon">📱</div>
+          <h3>Mobile & AR/VR</h3>
+          <p>Swift, Android Studio, ARCore, ARKit, Oculus SDK, WebXR</p>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-icon">🎬</div>
+          <h3>Media Production</h3>
+          <p>After Effects, Premiere Pro, Blender, Cinema 4D, Photoshop</p>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-icon">🤖</div>
+          <h3>AI & Machine Learning</h3>
+          <p>TensorFlow, OpenCV, Python, Data Visualization, Neural Networks</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="fade-in">
+      <div class="contact">
+        <h2>Let's Create Together</h2>
+        <p>
+          I'm always interested in collaborating on innovative projects that
+          push the boundaries of art and technology. Whether you're looking for
+          a creative partner, have an exciting opportunity, or just want to chat
+          about the latest in media arts, I'd love to hear from you.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:alexchen@usc.edu" class="contact-link">Email Me</a>
+          <a href="#" class="contact-link">LinkedIn</a>
+          <a href="#" class="contact-link">Instagram</a>
+          <a href="#" class="contact-link">GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Smooth scrolling and navbar effects
+      window.addEventListener("scroll", () => {
+        const navbar = document.getElementById("navbar");
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+
+        // Fade in animations
+        const fadeElements = document.querySelectorAll(".fade-in");
+        fadeElements.forEach((element) => {
+          const elementTop = element.offsetTop;
+          const elementBottom = elementTop + element.offsetHeight;
+          const viewportTop = window.scrollY;
+          const viewportBottom = viewportTop + window.innerHeight;
+
+          if (elementBottom > viewportTop && elementTop < viewportBottom) {
+            element.classList.add("visible");
+          }
+        });
+      });
+
+      // Portfolio item interactions
+      document.querySelectorAll(".portfolio-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const title = item.querySelector("h3").textContent;
+          alert(`Opening ${title} project details...`);
+          // In a real implementation, this would open a detailed project view
+        });
+      });
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Initial animation trigger
+      window.addEventListener("load", () => {
+        const event = new Event("scroll");
+        window.dispatchEvent(event);
+      });
+    </script>
+  </body>
+</html>

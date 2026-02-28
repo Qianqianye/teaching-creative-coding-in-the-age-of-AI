@@ -5,10 +5,10 @@ body {
   line-height: 0.9;
 }
 
-.body{
-  height: 50vh;
+.body {
+  /* height: 50vh; */
   overflow: hidden;
-  border: solid;
+  /* border: solid; */
 }
 h1 {
   font-size: 6.5em;
@@ -41,7 +41,8 @@ p {
 .next-btn {
   position: fixed;
   right: 0;
-  bottom: 50vh;
+  /* bottom: 50vh; */
+  bottom: 0;
   margin: 1%;
   text-decoration: none;
   font-size: 30em;

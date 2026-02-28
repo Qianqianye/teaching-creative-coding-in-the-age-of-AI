@@ -2,17 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
+      * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
-        width: 100vw;
-        height: 100vh;
+        background: #f5f0e8;
+        width: 100vw; height: 100vh;
         overflow: hidden;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -20,86 +14,86 @@
         font-size: 0.8rem;
       }
 
-      .code-panel {
-        padding: 52px 48px;
-        overflow-y: auto;
-        border-right: 1px solid rgba(0, 0, 0, 0.15);
+      /* each half is itself split: top=sketch, bottom=code */
+      .half {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        border-right: 1px solid rgba(0,0,0,0.15);
+        overflow: hidden;
       }
+      .half:last-child { border-right: none; }
 
-      .code-panel:last-child {
-        border-right: none;
+      .sketch-area {
+        position: relative;
+        border-bottom: 1px solid rgba(0,0,0,0.15);
+        overflow: hidden;
+        background: #f5f0e8;
       }
+      .sketch-area canvas { display: block; }
 
-      .student-label {
-        font-size: 0.8rem;
-        color: rgba(0, 0, 0, 0.4);
-        margin-bottom: 28px;
+      .code-area { padding: 28px 32px; overflow-y: auto; }
+
+      .panel-label {
+        font-size: 0.8rem; color: rgba(0,0,0,0.4);
+        margin-bottom: 20px;
       }
 
       pre {
-        font-family: monospace;
-        font-size: 0.8rem;
-        line-height: 1.9;
-        color: #000;
-        white-space: pre-wrap;
-        word-break: break-word;
+        font-family: monospace; font-size: 0.78rem;
+        line-height: 1.85; color: #000;
+        white-space: pre-wrap; word-break: break-word;
       }
+      .comment { color: rgb(0,0,255); }
+      .key     { color: rgb(0,0,255); font-weight: bold; }
 
-      .comment {
-        color: rgb(0, 0, 255);
+      .next-btn {
+        position: fixed; bottom: 20px; right: 24px;
+        font-family: monospace; font-size: 0.8rem;
+        color: rgb(0,0,255); text-decoration: none; z-index: 10;
       }
-
-      .key {
-        color: rgb(0, 0, 255);
-        font-weight: bold;
-      }
+      .next-btn:hover { text-decoration: underline; }
     </style>
   </head>
-
   <body>
-    <div class="code-panel">
-      <div class="student-label">the commented-out experiments — searching</div>
-      <!--  <h2>the commented-out experiments — searching</h2>-->
-      <pre>
-<span class="comment">// i don't know why this works but it does</span>
+
+    <!-- LEFT HALF: messy code running above, messy code shown below -->
+    <div class="half">
+      <div class="sketch-area" id="left-sketch"></div>
+      <div class="code-area">
+        <div class="panel-label">the commented-out experiments — searching</div>
+        <pre><span class="comment">// i don't know why this works but it does</span>
 let ugh = 0;
 let finally_it_moved = false;
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-}
-
 function draw() {
   <span class="comment">// tried 0.1 — too fast</span>
+  <span class="comment">// ugh += 0.1;</span>
   <span class="comment">// tried 0.001 — too slow</span>
-  <span class="key">ugh += 0.018;</span> <span class="comment">// this one felt right</span>
-
-  if (mouseIsPressed) {
-    finally_it_moved = true;
-  }
+  <span class="comment">// ugh += 0.001;</span>
+  <span class="key">ugh += 0.018; // felt right</span>
 
   <span class="comment">// version 1: grid — too cold</span>
   <span class="comment">// version 2: random — felt like noise</span>
   <span class="comment">// version 3: this. keeping this.</span>
 
-  if (finally_it_moved) {
-    fill(0, 0, 0, 12);
-    ellipse(
-      mouseX + sin(ugh) * 40,
-      mouseY + cos(ugh * 1.3) * 40,
-      8, 8
-    );
-  }
+  fill(0, 0, 255, 40); noStroke();
+  ellipse(
+    mx + sin(ugh) * 80,
+    my + cos(ugh * 1.3) * 80,
+    9, 9
+  );
 }
 
-<span class="comment">// the elephant is the disconnection</span>
-</pre>
+<span class="comment">// the elephant is the disconnection</span></pre>
+      </div>
     </div>
 
-    <div class="code-panel">
-      <div class="student-label">Can you get here with one attempt?</div>
-      <pre>
-let t = 0;
+    <!-- RIGHT HALF: clean code running above, clean code shown below -->
+    <div class="half">
+      <div class="sketch-area" id="right-sketch"></div>
+      <div class="code-area">
+        <div class="panel-label">Can you get here with one attempt?</div>
+        <pre>let t = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -107,19 +101,101 @@ function setup() {
 }
 
 function draw() {
-  t += 0.018;
+  <span class="key">t += 0.018;</span>
 
-  fill(0, 0, 0, 12);
+  fill(0, 0, 255, 40);
   noStroke();
   ellipse(
-    mouseX + sin(t) * 40,
-    mouseY + cos(t * 1.3) * 40,
-    8, 8
+    mx + sin(t) * 80,
+    my + cos(t * 1.3) * 80,
+    9, 9
   );
-}
-</pre
-      >
+}</pre>
+      </div>
     </div>
+
     <a class="next-btn" href="part-two.html">→</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script>
+
+    // ── Shared simulated mouse — same drifting path for both sketches
+    // so the only difference is the code, not the input
+    let sharedMx, sharedMy, sharedMox, sharedMoy;
+
+    // ── LEFT: T.'s actual messy code, running exactly as written ──
+    new p5(function(p) {
+      let ugh = 0;
+
+      p.setup = function() {
+        let el = document.getElementById('left-sketch');
+        p.createCanvas(el.offsetWidth, el.offsetHeight).parent('left-sketch');
+        p.frameRate(60);
+        p.background(245, 240, 232);
+        sharedMox = p.random(1000);
+        sharedMoy = p.random(2000);
+        sharedMx  = p.width / 2;
+        sharedMy  = p.height / 2;
+      };
+
+      p.draw = function() {
+        // update shared mouse position
+        let t2 = p.frameCount * 0.004;
+        sharedMx = p.width  * 0.5 + (p.noise(sharedMox + t2) - 0.5) * p.width  * 0.55;
+        sharedMy = p.height * 0.5 + (p.noise(sharedMoy + t2) - 0.5) * p.height * 0.55;
+
+        ugh += 0.018;
+
+        p.fill(0, 0, 255, 40);
+        p.noStroke();
+        p.ellipse(
+          sharedMx + p.sin(ugh) * 80,
+          sharedMy + p.cos(ugh * 1.3) * 80,
+          9, 9
+        );
+      };
+
+      p.windowResized = function() {
+        let el = document.getElementById('left-sketch');
+        p.resizeCanvas(el.offsetWidth, el.offsetHeight);
+        p.background(245, 240, 232);
+      };
+    });
+
+    // ── RIGHT: the clean version — same logic, no commented-out baggage ──
+    new p5(function(p) {
+      let t = 0;
+
+      p.setup = function() {
+        let el = document.getElementById('right-sketch');
+        p.createCanvas(el.offsetWidth, el.offsetHeight).parent('right-sketch');
+        p.frameRate(60);
+        p.background(245, 240, 232);
+      };
+
+      p.draw = function() {
+        t += 0.018;
+
+        // uses same shared mouse so paths are comparable
+        let mx = sharedMx !== undefined ? sharedMx * (p.width / document.getElementById('left-sketch').offsetWidth) : p.width / 2;
+        let my = sharedMy !== undefined ? sharedMy * (p.height / document.getElementById('left-sketch').offsetHeight) : p.height / 2;
+
+        p.fill(0, 0, 255, 40);
+        p.noStroke();
+        p.ellipse(
+          mx + p.sin(t) * 80,
+          my + p.cos(t * 1.3) * 80,
+          9, 9
+        );
+      };
+
+      p.windowResized = function() {
+        let el = document.getElementById('right-sketch');
+        p.resizeCanvas(el.offsetWidth, el.offsetHeight);
+        p.background(245, 240, 232);
+      };
+    });
+
+    </script>
   </body>
 </html>
